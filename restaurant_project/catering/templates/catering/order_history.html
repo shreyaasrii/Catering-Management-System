@@ -1,0 +1,55 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Order History</title>
+    <link href="https://cdn.jsdelivr.net/npm/tailwindcss@2.2.19/dist/tailwind.min.css" rel="stylesheet">
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css" rel="stylesheet">
+    <style>
+        /* Custom styles for dark theme */
+        body {
+            background-color: #1a202c;
+            color: #e2e8f0;
+        }
+
+        /* Styling for list items */
+        ul {
+            list-style-type: none;
+            padding: 0;
+        }
+
+        li {
+            background-color: #2d3748; /* Darker background for better contrast */
+            border: 1px solid #4a5568; /* Darker border color */
+            border-radius: 0.25rem; /* Rounded corners */
+            padding: 1rem;
+            margin-bottom: 1rem;
+        }
+
+        /* Styling for links and buttons */
+        a {
+            color: #cbd5e0; /* Light color for links */
+        }
+
+        a:hover {
+            color: #3182ce; /* Color on hover */
+        }
+    </style>
+</head>
+<body class="bg-gray-800">
+    <div class="max-w-2xl mx-auto py-12">
+        <h1 class="text-2xl font-bold mb-4 text-center">Order History</h1>
+        <ul class="space-y-2">
+            {% for booking in bookings %}
+                <li class="border-b border-gray-600 py-2">
+                    <p class="font-semibold">Date: {{ booking.event_date }}</p>
+                    <p class="text-gray-400">Customer: {{ booking.customer_name }}</p>
+                    <p class="text-gray-400">Special Requests: {{ booking.special_requests }}</p>
+                    <a href="{% url 'generate_bill' booking.id %}" class="bg-green-500 text-white px-4 py-2 rounded-md hover:bg-green-600 focus:outline-none focus:bg-green-600 mt-2 inline-block">Generate Bill</a>
+                </li>
+            {% endfor %}
+        </ul>
+    </div>
+</body>
+</html>

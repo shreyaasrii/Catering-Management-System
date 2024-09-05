@@ -1,0 +1,85 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Confirmation</title>
+    <link href="https://cdn.jsdelivr.net/npm/tailwindcss@2.2.19/dist/tailwind.min.css" rel="stylesheet">
+    <style>
+        /* Custom styles for dark theme */
+        body {
+            background-color: #1a202c;
+            color: #e2e8f0;
+        }
+
+        a {
+            color: #cbd5e0;
+        }
+
+        .card {
+            background-color: #2d3748;
+            border: 1px solid #4a5568;
+            padding: 1rem;
+            border-radius: 0.5rem;
+            margin-bottom: 1rem;
+        }
+
+        .card-title {
+            font-size: 1.25rem;
+            font-weight: bold;
+            margin-bottom: 0.5rem;
+        }
+
+        .card-content {
+            font-size: 1rem;
+        }
+
+        .btn {
+            background-color: #4c51bf;
+            color: #fff;
+            padding: 0.5rem 1rem;
+            border-radius: 0.25rem;
+            text-decoration: none;
+            display: inline-block;
+            margin-top: 1rem;
+        }
+
+        .btn:hover {
+            background-color: #434190;
+        }
+    </style>
+</head>
+
+<body class="bg-gray-800 flex flex-col items-center justify-center min-h-screen">
+    <div class="max-w-2xl mx-auto py-12">
+        <div class="card">
+            <div class="card-title">Confirmation Details</div>
+            <div class="card-content">
+                <p><strong>Name:</strong> {{ name }}</p>
+                <p><strong>Email:</strong> {{ email }}</p>
+                <p><strong>Event Date:</strong> {{ event_date }}</p>
+                <p><strong>Menu Items:</strong></p>
+                <ul>
+                    {% for item in selected_items %}
+                    <li>{{ item.name }} - ${{ item.price }}</li>
+                    {% endfor %}
+                </ul>
+                <p><strong>Special Requests:</strong> {{ special_requests }}</p>
+            </div>
+        </div>
+        <form action="{% url 'confirm_booking' %}" method="post">
+            {% csrf_token %}
+            <input type="hidden" name="name" value="{{ name }}">
+            <input type="hidden" name="email" value="{{ email }}">
+            <input type="hidden" name="event_date" value="{{ event_date }}">
+            {% for item in selected_items %}
+            <input type="hidden" name="menu_items" value="{{ item.id }}">
+            {% endfor %}
+            <input type="hidden" name="special_requests" value="{{ special_requests }}">
+            <button type="submit" class="btn">Confirm Booking</button>
+        </form>
+    </div>
+</body>
+
+</html>

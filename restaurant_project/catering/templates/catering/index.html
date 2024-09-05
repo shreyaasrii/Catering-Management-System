@@ -1,0 +1,43 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Restaurant Catering</title>
+    <link href="https://cdn.jsdelivr.net/npm/tailwindcss@2.2.19/dist/tailwind.min.css" rel="stylesheet">
+    <style>
+        /* Custom styles for dark theme */
+        body {
+            background-color: #1a202c;
+            color: #e2e8f0;
+        }
+        a {
+            color: #cbd5e0;
+        }
+    </style>
+</head>
+
+<body class="flex items-center justify-center h-screen">
+    <div class="text-center">
+        <h1 class="text-3xl font-bold mb-4">Welcome to Our Restaurant</h1>
+        <div class="space-y-4">
+            <a href="{% url 'menu' %}"
+                class="bg-gray-700 text-white px-6 py-3 rounded-md inline-block hover:bg-gray-600 focus:outline-none focus:bg-gray-600">View
+                Menu</a>
+            <a href="{% url 'book_catering' %}"
+                class="bg-gray-700 text-white px-6 py-3 rounded-md inline-block hover:bg-gray-600 focus:outline-none focus:bg-gray-600">Book
+                Catering</a>
+            <!-- Admin Button -->
+            <a href="{% url 'admin_login' %}"
+                class="bg-blue-500 text-white px-6 py-3 rounded-md inline-block hover:bg-blue-600 focus:outline-none focus:bg-blue-600">Admin
+                Login</a>
+            <!-- Contact Us Button -->
+            <a href="{% url 'contact_us' %}"
+                class="bg-green-500 text-white px-6 py-3 rounded-md inline-block hover:bg-green-600 focus:outline-none focus:bg-green-600">Contact
+                Us</a>
+        </div>
+    </div>
+</body>
+
+</html>

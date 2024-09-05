@@ -1,0 +1,43 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Admin Login</title>
+    <link href="https://cdn.jsdelivr.net/npm/tailwindcss@2.2.19/dist/tailwind.min.css" rel="stylesheet">
+    <style>
+        body {
+            background-color: #1a202c;
+            color: #e2e8f0;
+        }
+    </style>
+</head>
+
+<body class="flex items-center justify-center h-screen">
+    <div class="bg-gray-800 p-8 rounded-md shadow-md w-96">
+        <h1 class="text-2xl font-bold mb-4 text-center">Admin Login</h1>
+        <form method="post">
+            {% csrf_token %}
+            <div class="mb-4">
+                <label for="username" class="block text-gray-300">Username:</label>
+                <input type="text" id="username" name="username" required
+                    class="bg-gray-700 text-gray-300 border border-gray-600 px-3 py-2 rounded-md w-full">
+            </div>
+            <div class="mb-4">
+                <label for="password" class="block text-gray-300">Password:</label>
+                <input type="password" id="password" name="password" required
+                    class="bg-gray-700 text-gray-300 border border-gray-600 px-3 py-2 rounded-md w-full">
+            </div>
+            <button type="submit"
+                class="bg-blue-500 text-white px-4 py-2 rounded-md hover:bg-blue-600 focus:outline-none focus:bg-blue-600 w-full">Login</button>
+        </form>
+        {% if messages %}
+            {% for message in messages %}
+                <div class="mt-4 text-red-500">{{ message }}</div>
+            {% endfor %}
+        {% endif %}
+    </div>
+</body>
+
+</html>

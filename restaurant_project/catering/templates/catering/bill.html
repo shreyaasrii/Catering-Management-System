@@ -1,0 +1,42 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Bill</title>
+    <link href="https://cdn.jsdelivr.net/npm/tailwindcss@2.2.19/dist/tailwind.min.css" rel="stylesheet">
+    <style>
+        body {
+            background-color: #1a202c;
+            color: #e2e8f0;
+        }
+    </style>
+</head>
+<body class="bg-gray-800">
+    <div class="max-w-2xl mx-auto py-12">
+        <h1 class="text-2xl font-bold mb-4 text-center">Billing Statement</h1>
+        <div class="bg-gray-700 p-4 rounded-md">
+            <h2 class="text-xl font-semibold mb-2">Booking Details</h2>
+            <p class="text-gray-400">Customer Name: {{ booking.customer_name }}</p>
+            <p class="text-gray-400">Event Date: {{ booking.event_date }}</p>
+            <p class="text-gray-400">Special Requests: {{ booking.special_requests }}</p>
+            
+            <h2 class="text-xl font-semibold mt-4 mb-2">Menu Items</h2>
+            <ul class="space-y-2">
+                {% for item in booking.menu_items.all %}
+                    <li class="border-b border-gray-600 py-2">
+                        <p class="font-semibold">{{ item.name }}</p>
+                        <p class="text-gray-400">{{ item.description }}</p>
+                        <p class="text-gray-400">Price: ${{ item.price }}</p>
+                    </li>
+                {% endfor %}
+            </ul>
+
+            <h2 class="text-xl font-semibold mt-4 mb-2">Total Amount</h2>
+            <p class="text-gray-300">Subtotal: ${{ subtotal|floatformat:2 }}</p>
+            <p class="text-gray-300">Tax (18%): ${{ tax_amount|floatformat:2 }}</p>
+            <p class="text-gray-300">Total (including tax): ${{ total_amount|floatformat:2 }}</p>
+        </div>
+    </div>
+</body>
+</html>

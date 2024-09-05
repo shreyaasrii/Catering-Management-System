@@ -1,0 +1,137 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Book Catering</title>
+    <link href="https://cdn.jsdelivr.net/npm/tailwindcss@2.2.19/dist/tailwind.min.css" rel="stylesheet">
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css" rel="stylesheet">
+    <style>
+        /* Custom styles for dark theme */
+        body {
+            background-color: #1a202c;
+            color: #e2e8f0;
+        }
+
+        a {
+            color: #cbd5e0;
+        }
+
+        /* Styling for form inputs and textareas */
+        input[type="text"],
+        input[type="email"],
+        input[type="date"],
+        textarea {
+            background-color: #2d3748; /* Darker background for better contrast */
+            border: 1px solid #4a5568; /* Darker border color */
+            color: #e2e8f0; /* Text color */
+            padding: 0.75rem; /* Padding for better spacing */
+            border-radius: 0.25rem; /* Rounded corners */
+            width: 100%; /* Full width */
+            transition: border-color 0.3s ease-in-out; /* Smooth transition for focus */
+        }
+
+        input[type="text"]:focus,
+        input[type="email"]:focus,
+        input[type="date"]:focus,
+        textarea:focus {
+            border-color: #3182ce; /* Focus border color */
+            outline: none; /* Remove default focus outline */
+        }
+
+        /* Styling for checkboxes */
+        .checkbox-label {
+            display: flex;
+            align-items: center;
+        }
+
+        .checkbox-label input[type="checkbox"] {
+            margin-right: 0.5rem;
+        }
+
+        /* Styling for menu item labels */
+        .menu-item-label {
+            color: #e2e8f0; /* Match the color of other headings */
+        }
+    </style>
+</head>
+
+<body class="bg-gray-800">
+    <div class="max-w-2xl mx-auto py-12">
+        <div class="flex justify-between items-center mb-8">
+            <a href="{% url 'index' %}"
+                class="flex items-center space-x-2 bg-gray-700 text-white px-4 py-2 rounded-md inline-block hover:bg-gray-600 focus:outline-none focus:bg-gray-600">
+                <i class="fas fa-arrow-left"></i>
+                <span>Back</span>
+            </a>
+        </div>
+        <h1 class="text-2xl font-bold mb-4 text-center">Book Catering</h1>
+        <form method="post" class="space-y-4">
+            {% csrf_token %}
+            <div class="flex flex-col space-y-2">
+                <label for="name" class="font-semibold">Name:</label>
+                <input type="text" id="name" name="name" required
+                    class="bg-gray-700 border border-gray-600 px-3 py-2 rounded-md text-gray-300 focus:outline-none focus:border-blue-500">
+            </div>
+
+            <div class="flex flex-col space-y-2">
+                <label for="email" class="font-semibold">Email:</label>
+                <input type="email" id="email" name="email" required
+                    class="bg-gray-700 border border-gray-600 px-3 py-2 rounded-md text-gray-300 focus:outline-none focus:border-blue-500">
+            </div>
+
+            <div class="flex flex-col space-y-2">
+                <label for="event_date" class="font-semibold">Event Date:</label>
+                <input type="date" id="event_date" name="event_date" required
+                    class="bg-gray-700 border border-gray-600 px-3 py-2 rounded-md text-gray-300 focus:outline-none focus:border-blue-500">
+            </div>
+
+            <div class="flex flex-col space-y-2">
+                <label for="menu_items" class="font-semibold">Select Menu Items:</label>
+                {% for item in items %}
+                <div class="flex items-center space-x-4 bg-gray-700 p-4 rounded-md">
+                    <input type="checkbox" id="item{{ item.id }}" name="menu_items" value="{{ item.id }}"
+                        class="mr-2">
+                    <span class="menu-item-label">{{ item.name }} - ${{ item.price }}</span>
+                    <div class="flex items-center space-x-2 ml-auto bg-gray-700 p-2 rounded-md">
+                        <button type="button" onclick="updateQuantity(this, -1)" class="bg-gray-600 text-white px-2 py-1 rounded-md hover:bg-gray-500">-</button>
+                        <input type="number" name="quantities_{{ item.id }}" value="0" min="0"
+                            class="w-16 text-center bg-gray-700 border border-gray-600 text-gray-300">
+                        <button type="button" onclick="updateQuantity(this, 1)" class="bg-gray-600 text-white px-2 py-1 rounded-md hover:bg-gray-500">+</button>
+                    </div>
+                </div>
+                {% endfor %}
+            </div>
+
+            <div class="flex flex-col space-y-2">
+                <label for="special_requests" class="font-semibold">Special Requests:</label>
+                <textarea id="special_requests" name="special_requests"
+                    class="bg-gray-700 border border-gray-600 px-3 py-2 rounded-md text-gray-300 focus:outline-none focus:border-blue-500"></textarea>
+            </div>
+
+            <button type="submit"
+                class="bg-blue-500 text-white px-4 py-2 rounded-md hover:bg-blue-600 focus:outline-none focus:bg-blue-600">Book
+                Catering</button>
+        </form>
+    </div>
+
+    <script>
+        function updateQuantity(element, change) {
+            const quantityInput = element.parentElement.querySelector('input[type="number"]');
+            let quantity = parseInt(quantityInput.value);
+            quantity = Math.max(0, quantity + change); // Ensure quantity is at least 0
+            quantityInput.value = quantity;
+        }
+
+        document.addEventListener('DOMContentLoaded', function() {
+            {% if messages %}
+                {% for message in messages %}
+                    alert("{{ message }}");
+                {% endfor %}
+            {% endif %}
+        });
+    </script>
+</body>
+
+</html>
